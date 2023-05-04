@@ -11,18 +11,44 @@ export const Search = () => {
     const [toggle, setToggle] = useState(true); //by default filtered api
 
     useEffect(() => {
-        //server api filtering
-        fetchSearch();
         //clientside Filtering
         if (toggle === false) {
+            console.log("toggle is false");
             setSearchProducts([]);
             let searchedProducts = allProducts.filter((products) =>
                 products.title.includes(searchQuery)
             );
-            console.log(searchedProducts);
+            setSearchProducts(searchedProducts);
         }
+        //debouncing
+        let timeOut = setTimeout(() => {
+            //filtering using api request
+            fetchSearch();
+        }, 1000);
+        return () => {
+            clearTimeout(timeOut);
+        };
     }, [searchQuery]);
 
+    //client side filtering
+    useEffect(() => {
+        //Client side filtering
+        if (toggle === false) {
+            fetchAllProducts();
+            console.log("it is happeing now that fetching of all products");
+        }
+    }, [toggle]);
+
+    //all products fetching function
+    const fetchAllProducts = async () => {
+        try {
+            const response = await axios.get("https://dummyjson.com/products");
+            setAllProducts(response?.data?.products);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    //api filtering function
     const fetchSearch = async () => {
         try {
             const response = await axios.get(
@@ -39,29 +65,11 @@ export const Search = () => {
         }
     };
 
-    //client side filtering
-    useEffect(() => {
-        //Client side filtering
-        if (toggle === false) {
-            fetchAllProducts();
-            console.log("it is happeing now that fetching of all products");
-        }
-    }, [toggle]);
-
-    const fetchAllProducts = async () => {
-        try {
-            const response = await axios.get("https://dummyjson.com/products");
-            setAllProducts(response?.data?.products);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     const handleChange = (e) => {
         setSearchQuery(e.target.value);
     };
 
-    const closeSearch = (e) => {
+    const closeSearch = () => {
         setSearchQuery("");
     };
 
