@@ -75,6 +75,7 @@ export const Search = () => {
 
     const toggleSearch = () => {
         setToggle(!toggle);
+        setSearchQuery("");
     };
 
     return (

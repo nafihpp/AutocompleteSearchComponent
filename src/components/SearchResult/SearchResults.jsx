@@ -3,7 +3,7 @@ import "./SearchResults.css";
 
 export const SearchResults = ({ searchQuery, searchProducts }) => {
     return (
-        searchProducts.length !== 0 &&
+        // searchProducts.length !== 0 &&
         searchQuery && (
             <div className="search-result-container">
                 {searchProducts?.map((result) => (
