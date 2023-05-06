@@ -9,7 +9,7 @@
     align-items: center;
     background: "#fff";
     margin-bottom: 10px;
-    background: midnightblue;
+    background: #194670;
     padding: 10px;
     cursor: pointer;
     color: #fff;
@@ -20,7 +20,7 @@
     opacity: 1;
 }
 ::-webkit-scrollbar-thumb {
-    background: #4a12ff;
+    background: #129fff;
     border-radius: 1px;
 }
 ::-webkit-scrollbar {
