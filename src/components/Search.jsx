@@ -13,21 +13,22 @@ export const Search = () => {
     useEffect(() => {
         //clientside Filtering
         if (toggle === false) {
-            console.log("toggle is false");
             setSearchProducts([]);
             let searchedProducts = allProducts.filter((products) =>
-                products.title.includes(searchQuery)
+                products.title.toLowerCase().includes(searchQuery.toLowerCase())
             );
             setSearchProducts(searchedProducts);
+        } else {
+            //debouncing
+            let timeOut = setTimeout(() => {
+                //filtering using api request
+                fetchSearch();
+            }, 1000);
+
+            return () => {
+                clearTimeout(timeOut);
+            };
         }
-        //debouncing
-        let timeOut = setTimeout(() => {
-            //filtering using api request
-            fetchSearch();
-        }, 1000);
-        return () => {
-            clearTimeout(timeOut);
-        };
     }, [searchQuery]);
 
     //client side filtering
@@ -38,6 +39,10 @@ export const Search = () => {
             console.log("it is happeing now that fetching of all products");
         }
     }, [toggle]);
+
+    useEffect(() => {
+        setSearchProducts([]);
+    }, []);
 
     //all products fetching function
     const fetchAllProducts = async () => {
@@ -74,15 +79,30 @@ export const Search = () => {
     };
 
     const toggleSearch = () => {
+        setAllProducts([]);
         setToggle(!toggle);
         setSearchQuery("");
     };
 
     return (
         <div className="search-container">
-            <div>
-                <button onClick={toggleSearch}>
-                    {toggle ? "API Searching" : "ClientSide filtering"}
+            <div style={{ display: "flex" }}>
+                <button
+                    onClick={toggleSearch}
+                    style={{
+                        marginRight: "8px",
+                        backgroundColor: toggle === true ? "green" : "grey",
+                    }}
+                >
+                    API Searching
+                </button>
+                <button
+                    onClick={toggleSearch}
+                    style={{
+                        backgroundColor: toggle !== true ? "green" : "grey",
+                    }}
+                >
+                    ClientSide filtering
                 </button>
             </div>
             <div className="search-heading">
