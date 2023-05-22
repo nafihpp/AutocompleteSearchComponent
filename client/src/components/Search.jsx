@@ -47,8 +47,11 @@ export const Search = () => {
     //all products fetching function
     const fetchAllProducts = async () => {
         try {
-            const response = await axios.get("https://dummyjson.com/products");
-            setAllProducts(response?.data?.products);
+            const response = await axios.get(
+                "http://localhost:5000/api/movies"
+            );
+            console.log(response, "==response");
+            setAllProducts(response?.data);
         } catch (error) {
             console.log(error);
         }

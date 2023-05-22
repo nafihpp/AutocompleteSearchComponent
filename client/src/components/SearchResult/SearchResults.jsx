@@ -21,7 +21,7 @@ export const SearchResults = ({ searchQuery, searchProducts }) => {
         </div>
     ) : (
         searchQuery && (
-            <p style={{ color: "#000", fontSize: "30px" }}>
+            <p style={{ color: "#fff", fontSize: "30px" }}>
                 No Search Results Found{" "}
             </p>
         )
